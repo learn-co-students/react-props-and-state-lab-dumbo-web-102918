@@ -10,7 +10,7 @@ class PetBrowser extends React.Component {
         console.log(pet);
          return (
            <div key={pet.id}>
-            <Pet key={pet.id} id={pet.id} name={pet.name} type={pet.type} age={pet.age} weight={pet.weight} gender={pet.gender} isAdopted={pet.isAdopted} onAdoptPet={this.props.onAdoptPet}/>
+            <Pet key={pet.id} pet={pet} onAdoptPet={this.props.onAdoptPet}/>
            </div>
          )
       })}
