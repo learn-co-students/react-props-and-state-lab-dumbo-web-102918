@@ -18,6 +18,7 @@ class App extends React.Component {
     
     this.changeTypeHandler = this.changeTypeHandler.bind(this);
     this.findPetsHandler = this.findPetsHandler.bind(this);
+    this.onAdoptPet = this.onAdoptPet.bind(this);
   }
   changeTypeHandler(qType){
     this.setState({ filters: qType });
@@ -26,6 +27,12 @@ class App extends React.Component {
   findPetsHandler(){
     let qURL = this.state.filters.type === 'all' ? "/api/pets" : `/api/pets?type=${this.state.filters.type}`
     fetch(qURL).then(res => res.json()).then(json => this.setState({ pets: json}));
+  }
+
+  onAdoptPet(petID){
+    const pets = this.state.pets.map(pet => pet.id === petID ? { ...pet, isAdopted: true} : pet);
+    this.setState({ pets });
+
   }
 
   render() {
@@ -40,7 +47,7 @@ class App extends React.Component {
               <Filters onChangeType={this.changeTypeHandler} onFindPetsClick={this.findPetsHandler}/>
             </div>
             <div className="twelve wide column">
-              <PetBrowser pets={this.state.pets}/>
+              <PetBrowser pets={this.state.pets} onAdoptPet={this.onAdoptPet} />
             </div>
           </div>
         </div>
