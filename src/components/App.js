@@ -18,7 +18,7 @@ class App extends React.Component {
 
   onChangeType = (selectedFilter) => {
     console.log(selectedFilter);
-    const filters = [...this.state.filters];
+    const filters = {...this.state.filters};
     filters.type = selectedFilter;
     this.setState({
       filters: filters
