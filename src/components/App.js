@@ -13,6 +13,19 @@ class App extends React.Component {
         type: 'all'
       }
     }
+
+    fetch("/api/pets").then(res => res.json()).then(json => this.setState({ pets: [...json] }));
+    
+    this.changeTypeHandler = this.changeTypeHandler.bind(this);
+    this.findPetsHandler = this.findPetsHandler.bind(this);
+  }
+  changeTypeHandler(qType){
+    this.setState({ filters: qType });
+  }
+
+  findPetsHandler(){
+    let qURL = this.state.filters.type === 'all' ? "/api/pets" : `/api/pets?type=${this.state.filters.type}`
+    fetch(qURL).then(res => res.json()).then(json => this.setState({ pets: json}));
   }
 
   render() {
@@ -24,10 +37,10 @@ class App extends React.Component {
         <div className="ui container">
           <div className="ui grid">
             <div className="four wide column">
-              <Filters />
+              <Filters onChangeType={this.changeTypeHandler} onFindPetsClick={this.findPetsHandler}/>
             </div>
             <div className="twelve wide column">
-              <PetBrowser />
+              <PetBrowser pets={this.state.pets}/>
             </div>
           </div>
         </div>
